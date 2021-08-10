@@ -12,7 +12,7 @@ const create_exercise = async (req, res) => {
 				userId: req.params._id,
 				description: req.body.description,
 				duration: req.body.duration,
-				date: req.body.date ? req.body.date : new Date(),
+				date: req.body.date ? new Date(req.body.date).toString() : new Date().toString(),
 			});
 
 			let saveExercise = () => {
@@ -24,7 +24,7 @@ const create_exercise = async (req, res) => {
 						res.send({
 							_id: exercise.userId,
 							username: user.username,
-							date: exercise.date,
+							date: exercise.date.toString().substr(0, 15),
 							duration: exercise.duration,
 							description: exercise.description,
 						})
@@ -51,7 +51,7 @@ const get_exercises = (req, res) => {
 						let newObj = {
 							description: exercise.description,
 							duration: exercise.duration,
-							date: exercise.date ? exercise.date : new Date(),
+							date: exercise.date ? new Date(exercise.date).toString() : new Date().toString(),
 						};
 						return newObj;
 					})
