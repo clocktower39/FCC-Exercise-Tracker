@@ -16,6 +16,17 @@ const create_user = (req, res) => {
     saveUser();
 }
 
+const get_users = (req, res) => {
+	User.find({}, (err, users) => {
+		if(err){
+			res.send(err);
+		}
+		else {
+			res.send(users);
+		}
+	})
+}
 module.exports = {
 	create_user,
+	get_users,
 }

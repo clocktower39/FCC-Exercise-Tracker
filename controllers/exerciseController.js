@@ -7,7 +7,6 @@ const create_exercise = async (req, res) => {
 			res.send(err.message);
 		}
 		else {
-			console.log(user);
 			let exercise = new Exercise({
 				username: user.username,
 				userId: req.body[":_id"],
@@ -49,10 +48,12 @@ const get_exercises = (req, res) => {
 				}
 				else {
 					let adjustedExercises = exercises.map(exercise => {
-						exercise._id = undefined;
-						exercise.userId = undefined;
-						exercise.__v = undefined;
-						return exercise;
+						let newObj = {
+							description: exercise.description,
+							duration: exercise.duration,
+							date: exercise.date,
+						};
+						return newObj;
 					})
 
 					res.send({
