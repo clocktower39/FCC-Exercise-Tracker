@@ -2,34 +2,34 @@ const Exercise = require('../models/exercise');
 const User = require('../models/user');
 
 const create_exercise = async (req, res) => {
-	User.findById(req.body[":_id"], (err, user) => {
-		if(err){
+	User.findById(req.params._id, (err, user) => {
+		if (err) {
 			res.send(err.message);
 		}
 		else {
 			let exercise = new Exercise({
 				username: user.username,
-				userId: req.body[":_id"],
+				userId: req.params._id,
 				description: req.body.description,
 				duration: req.body.duration,
-				date: req.body.date,
+				date: req.body.date ? req.body.date : new Date(),
 			});
-			
+
 			let saveExercise = () => {
-					exercise.save((err) => {
-							if (err) {
-									res.send(err);
-							}
-							else {
-									res.send({
-										_id: exercise.userId,
-										username: user.username,
-										date: exercise.date,
-										duration: exercise.duration,
-										description: exercise.description,
-									})
-							}
-					})
+				exercise.save((err) => {
+					if (err) {
+						res.send(err);
+					}
+					else {
+						res.send({
+							_id: exercise.userId,
+							username: user.username,
+							date: exercise.date,
+							duration: exercise.duration,
+							description: exercise.description,
+						})
+					}
+				})
 			}
 			saveExercise();
 		}
@@ -38,12 +38,12 @@ const create_exercise = async (req, res) => {
 
 const get_exercises = (req, res) => {
 	User.findById(req.params._id, (err, user) => {
-		if(err){
+		if (err) {
 			res.send('User not found');
 		}
 		else {
-			Exercise.find({userId: req.params._id}, (err, exercises) => {
-				if(err){
+			Exercise.find({ userId: req.params._id }, (err, exercises) => {
+				if (err) {
 					res.send(err);
 				}
 				else {
@@ -51,7 +51,7 @@ const get_exercises = (req, res) => {
 						let newObj = {
 							description: exercise.description,
 							duration: exercise.duration,
-							date: exercise.date,
+							date: exercise.date ? exercise.date : new Date(),
 						};
 						return newObj;
 					})
