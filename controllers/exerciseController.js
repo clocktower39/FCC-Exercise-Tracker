@@ -42,7 +42,7 @@ const get_exercises = (req, res) => {
 			res.send('User not found');
 		}
 		else {
-			Exercise.find({ userId: req.params._id }, (err, exercises) => {
+			Exercise.find({ userId: req.params._id }, null, { limit: Number(req.query.limit) }, (err, exercises) => {
 				if (err) {
 					res.send(err);
 				}

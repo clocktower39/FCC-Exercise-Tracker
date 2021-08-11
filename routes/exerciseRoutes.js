@@ -4,6 +4,6 @@ const exerciseController = require('../controllers/exerciseController');
 const router = express.Router();
 
 router.post('/api/users/:_id/exercises', exerciseController.create_exercise);
-router.get('/api/users/:_id/logs', exerciseController.get_exercises);
+router.get('/api/users/:_id/logs:from?:to?:limit?', exerciseController.get_exercises);
 
 module.exports = router;
